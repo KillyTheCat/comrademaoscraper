@@ -7,23 +7,32 @@ class AddNovel extends StatefulWidget {
 }
 
 class _AddNovelState extends State<AddNovel> {
-
   @override
   Widget build(BuildContext context) {
     Future<String> novelTextGet;
-    /* 
+    /*  
     // For BoxNovel
-    novelTextGet = getBody(
-            siteType: 'boxnovel',
-            chapterTitle: 'reverend-insanity',
-            chapterNumber: '2075',
-          ); 
-    */
-    // For ComradeMao
-    novelTextGet = getBody(
+    novelTextGet = scraperFunctions.getBody(
+      siteType: 'boxnovel',
+      chapterTitle: 'reverend-insanity',
+      chapterNumber: '2075',
+    );
+
+    // For BoxNovel
+    novelTextGet = scraperFunctions.getBody(
+      siteType: 'boxnovel',
       chapterTitle: 'reverend-insanity',
       chapterNumber: '100',
     );
+    */
+
+    // For ComradeMao
+    novelTextGet = scraperFunctions.getBody(
+      siteType: 'comrademao',
+      chapterTitle: 'great-emperor-myriad',
+      chapterNumber: '3475',
+    );
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
