@@ -22,9 +22,8 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => ChooseNovel(),
         '/reader': (context) => Reader(),
-        '/addnovel': (context) => Add_novel(),
+        '/addnovel': (context) => AddNovel(),
       },
     );
   }
 }
-

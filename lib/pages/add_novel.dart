@@ -1,13 +1,29 @@
+import 'package:comrademaoscraper/services/webscraper.dart';
 import 'package:flutter/material.dart';
 
-class Add_novel extends StatefulWidget {
+class AddNovel extends StatefulWidget {
   @override
-  _Add_novelState createState() => _Add_novelState();
+  _AddNovelState createState() => _AddNovelState();
 }
 
-class _Add_novelState extends State<Add_novel> {
+class _AddNovelState extends State<AddNovel> {
   @override
   Widget build(BuildContext context) {
+    Future<String> novelTextGet;
+    /* 
+    // For BoxNovel
+    novelTextGet = getBody(
+            siteType: 'boxnovel',
+            chapterTitle: 'reverend-insanity',
+            chapterNumber: '2075',
+          ); 
+    */
+    // For ComradeMao
+    novelTextGet = getBody(
+      siteType: 'comrademao',
+      chapterTitle: 'great-emperor-myriad',
+      chapterNumber: '3476',
+    );
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
@@ -18,6 +34,25 @@ class _Add_novelState extends State<Add_novel> {
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
+        ),
+      ),
+      body: Container(
+        margin: const EdgeInsets.all(10),
+        child: FutureBuilder(
+          future: novelTextGet,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Text(
+                snapshot.data,
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          },
         ),
       ),
     );
