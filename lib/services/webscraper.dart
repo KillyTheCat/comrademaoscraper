@@ -21,7 +21,7 @@ Future<String> getBody({
   var soup = parse(response.body);
   final query = soup.querySelector('html');
   final dynamic bodyElements = query.getElementsByClassName(bodyObjectName);
-  dynamic bodyElement = (bodyElements is List) ? bodyElements[0] : bodyElements;
+  dynamic bodyElement = bodyElements[0];
 
   String content = 'Error: No Text Recieved';
   if (bodyElement.hasContent()) content = bodyElement.text;

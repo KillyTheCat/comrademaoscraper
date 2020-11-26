@@ -7,6 +7,7 @@ class AddNovel extends StatefulWidget {
 }
 
 class _AddNovelState extends State<AddNovel> {
+
   @override
   Widget build(BuildContext context) {
     Future<String> novelTextGet;
@@ -20,13 +21,13 @@ class _AddNovelState extends State<AddNovel> {
     */
     // For ComradeMao
     novelTextGet = getBody(
-      siteType: 'comrademao',
-      chapterTitle: 'great-emperor-myriad',
-      chapterNumber: '3476',
+      chapterTitle: 'reverend-insanity',
+      chapterNumber: '100',
     );
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black87,
         centerTitle: true,
         title: Text(
           "Add a novel",
