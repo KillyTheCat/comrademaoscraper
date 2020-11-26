@@ -4,6 +4,8 @@ import 'package:comrademaoscraper/elements/novel.dart';
 class NovelListCard extends StatelessWidget {
   final Novel novel;
   NovelListCard({this.novel});
+  // the card that I wanna display on the choose novel screen.
+  // plan to add cover images and author names too.
 
   @override
   Widget build(BuildContext context) {

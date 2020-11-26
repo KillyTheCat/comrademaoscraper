@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:comrademaoscraper/pages/choose_novel.dart';
 import 'package:comrademaoscraper/pages/readerpage.dart';
+import 'pages/add_novel.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => ChooseNovel(),
         '/reader': (context) => Reader(),
+        '/addnovel': (context) => Add_novel(),
       },
     );
   }
