@@ -6,6 +6,8 @@ class ChooseNovel extends StatefulWidget {
 }
 
 class _ChooseNovelState extends State<ChooseNovel> {
+
+  // user has to add the novels by himself using floating action button
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +18,19 @@ class _ChooseNovelState extends State<ChooseNovel> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black87,
+      ),
+      floatingActionButton: FloatingActionButton(
+
+        onPressed: () {
+          // let user add novels
+        },
+
+        backgroundColor: Colors.white,
+        child: Icon(
+          Icons.add,
+          size: 40,
+          color: Colors.black,
+        ),
       ),
       body: ListView(
         padding: EdgeInsets.all(8),
