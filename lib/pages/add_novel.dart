@@ -17,7 +17,9 @@ class _AddNovelState extends State<AddNovel> {
       chapterTitle: 'reverend-insanity',
       chapterNumber: '2075',
     );
+    */
 
+    /*
     // For BoxNovel
     novelTextGet = scraperFunctions.getBody(
       siteType: 'boxnovel',
