@@ -20,7 +20,8 @@ class _ChooseNovelState extends State<ChooseNovel> {
       body: ListView(
         padding: EdgeInsets.all(8),
         children: [
-          
+          // check novlistcard.dart to see the widget. 
+          // planning to have a widget for each novel the user has
         ],
       )
     );

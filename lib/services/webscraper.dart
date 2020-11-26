@@ -12,6 +12,4 @@ Future<List> getBooks(String url, String chapternumber) async {
   print(content);
 }
 
-main(List<String> args) async {
-  getBooks('reverend-insanity', '31');
-}
+// planning to put all the scraper functions in this file.

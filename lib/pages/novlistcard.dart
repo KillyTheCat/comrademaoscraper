@@ -16,7 +16,7 @@ class NovelListCard extends StatelessWidget {
           children: [
             ListTile(
               onTap: () {
-                
+                // send to a page where the user can choose the chapter, I have yet to make it.
               },
               title: Text('$novel.name'),
             ),

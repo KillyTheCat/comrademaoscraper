@@ -4,4 +4,5 @@ class Novel {
   String numberOfChapters;
 
   Novel(this.name, this.url, this.numberOfChapters);
+  // self explanatory, I guess
 }

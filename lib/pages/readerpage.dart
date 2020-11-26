@@ -10,7 +10,7 @@ class _ReaderState extends State<Reader> {
   void setUpReader(String url){
     
   }
-  String demostring =
+  String demostring = //dummy string here, wish to replace it with the text we get from the scraper
       '''   Million years later, the Chaos Sea is calm and tranquil. Knowing that one day, someone who is detached will pass through the life forbidden zone to the Chaos Sea, Yang Xuan reappears in front of everyone.
 
         He is too strong, even facing the depths of the restricted area, those from the so-called Supreme Secret Realm can easily be killed.
