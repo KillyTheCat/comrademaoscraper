@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:comrademaoscraper/pages/choose_novel.dart';
 import 'package:comrademaoscraper/pages/readerpage.dart';
 import 'pages/add_novel.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async {
+  final pathToDocs = await getApplicationDocumentsDirectory();
+  Hive.init(pathToDocs.path);
   runApp(MyApp());
 }
 

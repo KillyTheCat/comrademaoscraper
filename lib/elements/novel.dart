@@ -1,8 +1,8 @@
 class Novel {
   String name;
   String url;
-  String numberOfChapters;
+  String currentChapter;
 
-  Novel(this.name, this.url, this.numberOfChapters);
+  Novel(this.name, this.url, this.currentChapter);
   // self explanatory, I guess
 }
