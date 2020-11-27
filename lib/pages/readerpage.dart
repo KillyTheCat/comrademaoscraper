@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:comrademaoscraper/services/webscraper.dart';
 
 class Reader extends StatefulWidget {
   @override
@@ -6,22 +7,29 @@ class Reader extends StatefulWidget {
 }
 
 class _ReaderState extends State<Reader> {
-  String text = 'something else';
-  String demostring = 'something';
-
+  Future<String> demostring;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        padding: EdgeInsets.all(10),
-        children: [
-          Text(
-            '$demostring',
-            style: TextStyle(
-              fontSize: 20,
-            ),
-          ),
-        ],
+      drawer: Drawer(),
+      body: Container(
+        margin: const EdgeInsets.all(10),
+        child: FutureBuilder(
+          future: demostring,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData)
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            return SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Text(
+                snapshot.data,
+                style: TextStyle(color: Colors.white),
+              ),
+            );
+          },
+        ),
       ),
     );
   }

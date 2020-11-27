@@ -1,6 +1,7 @@
 // import 'package:comrademaoscraper/services/webscraper.dart';
 import 'package:flutter/material.dart';
 import 'package:comrademaoscraper/elements/novel.dart';
+import 'package:comrademaoscraper/services/filehandling.dart';
 
 class AddNovel extends StatefulWidget {
   @override
@@ -143,10 +144,12 @@ class _AddNovelState extends State<AddNovel> {
                   SizedBox(height: 40),
                   Center(
                     child: FlatButton(
-                      onPressed: () {
+                      onPressed: () async {
                         Novel novel = new Novel(titleController.text,
                             urlController.text, positionController.text);
                         print(novel.currentChapter);
+                        await writeToDB(novel);
+                        Navigator.pop(context);
                       },
                       color: Colors.amber,
                       child: Padding(

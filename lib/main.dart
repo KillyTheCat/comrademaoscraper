@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:comrademaoscraper/pages/choose_novel.dart';
 import 'package:comrademaoscraper/pages/readerpage.dart';
+import 'package:comrademaoscraper/pages/choosechapterpage.dart';
 import 'pages/add_novel.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => ChooseNovel(),
         '/reader': (context) => Reader(),
         '/addnovel': (context) => AddNovel(),
+        '/selectchapter': (context) => ChapterSelector(),
       },
     );
   }
