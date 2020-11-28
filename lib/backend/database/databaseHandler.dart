@@ -7,3 +7,9 @@ Future<void> writeToDB(Novel novel) async {
   box.add(novel);
   box.close();
 }
+
+Future<void> incrementChapterNumber(String novelName) async {
+  Box<Novel> box = await Hive.openBox<Novel>('myBooksBox');
+  // increment chapter number of the novel
+  box.close();
+}
