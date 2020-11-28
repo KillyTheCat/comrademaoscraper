@@ -1,17 +1,15 @@
-import 'package:comrademaoscraper/elements/novel.dart';
 import 'package:flutter/material.dart';
+
+import 'package:comrademaoscraper/backend/database/shared.dart';
+
 import 'package:comrademaoscraper/pages/choose_novel.dart';
 import 'package:comrademaoscraper/pages/readerpage.dart';
 import 'package:comrademaoscraper/pages/choosechapterpage.dart';
-import 'pages/add_novel.dart';
-import 'package:hive/hive.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:comrademaoscraper/pages/add_novel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final documentDirectory = await getApplicationDocumentsDirectory();
-  Hive.init(documentDirectory.path);
-  Hive.registerAdapter(NovelAdapter());
+  await initializeDb();
   runApp(MyApp());
 }
 
@@ -44,10 +42,10 @@ class _MyAppState extends State<MyApp> {
       //       return Scaffold();
       //   },
       // ),
-      initialRoute: '/selectchapter',
+      initialRoute: '/',
       routes: {
         '/': (context) => ChooseNovel(),
-        '/reader': (context) => Reader(),
+        '/reader': (context) => ReaderPage(),
         '/addnovel': (context) => AddNovel(),
         '/selectchapter': (context) => ChapterSelector(),
       },
