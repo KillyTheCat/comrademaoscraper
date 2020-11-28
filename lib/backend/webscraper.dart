@@ -3,8 +3,6 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:html/dom.dart';
-import 'package:html/parser.dart' show parse;
 
 class ScraperFunctions {
   // Pretend to be random user agents to trick Cloudfare
@@ -62,15 +60,14 @@ class ScraperFunctions {
         if (bodyElement == null || bodyElement.isEmpty)
           throw Exception('No content found!');
 
+        // TODO: Cleanup. First lines are about Site and Last few lines contain fluff too.
         bodyElement.forEach((element) {
           if (element is String) {
             element = element.replaceAll(RegExp(r'&#8217;'), "'");
             element = element.replaceAll(RegExp(r'&#8220;'), '"');
             element = element.replaceAll(RegExp(r'&#8221;'), '"');
-            print(element);
             content += '$element\n';
           }
-          ;
         });
       } else if (response.statusCode == 503) {
         // DO YOUR THANG ASSHOLE
