@@ -9,20 +9,20 @@ class ChapterSelector extends StatefulWidget {
 }
 
 class _ChapterSelectorState extends State<ChapterSelector> {
-  Map noveldata = {
-    'title':'Rev. Custer',
-    'chapternumber' : '30',
-  };
+  Map noveldata;
 
   @override
   Widget build(BuildContext context) {
-    noveldata = noveldata.isNotEmpty? noveldata : ModalRoute.of(context).settings.arguments;
+    noveldata = noveldata.isNotEmpty
+        ? noveldata
+        : ModalRoute.of(context).settings.arguments;
     return Scaffold(
+      backgroundColor: Colors.black87,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           noveldata['title'],
-          style: TextStyle(color: Colors.white, fontSize: 40),
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
       ),
@@ -30,14 +30,57 @@ class _ChapterSelectorState extends State<ChapterSelector> {
         padding: const EdgeInsets.all(20.0),
         child: ListView(
           children: [
-            Text('Current chapter you\'re reading: '),
-            SizedBox(height: 30),
             Text(
-              noveldata['chapternumber'],
+              'Current chapter you\'re reading: ',
               style: TextStyle(
-                color: Colors.amber,
-                fontWeight: FontWeight.bold,
-              ),
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white),
+            ),
+            SizedBox(height: 30),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  noveldata['chapternumber'],
+                  style: TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 60,
+                  ),
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    FlatButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Continue Reading',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    FlatButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Go to beginning',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                  ],
+                ),
+              ],
             )
           ],
         ),

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:comrademaoscraper/elements/novel.dart';
 import 'package:comrademaoscraper/services/filehandling.dart';
+import 'package:hive/hive.dart';
 
 class AddNovel extends StatefulWidget {
   @override
@@ -38,6 +39,7 @@ class _AddNovelState extends State<AddNovel> {
     final titleController = TextEditingController();
     final urlController = TextEditingController();
     final positionController = TextEditingController();
+    final sourceController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -141,12 +143,34 @@ class _AddNovelState extends State<AddNovel> {
                       return null;
                     },
                   ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    controller: sourceController,
+                    decoration: InputDecoration(
+                      focusColor: Colors.white,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(
+                          color: Colors.white70,
+                        ),
+                      ),
+                      fillColor: Colors.white70,
+                      labelText:
+                          'Enter name of source (boxnovel/comrademao)',
+                    ),
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return 'please enter the source';
+                      }
+                      return null;
+                    },
+                  ),
                   SizedBox(height: 40),
                   Center(
                     child: FlatButton(
                       onPressed: () async {
                         Novel novel = new Novel(titleController.text,
-                            urlController.text, positionController.text);
+                            urlController.text, positionController.text, sourceController.text);
                         print(novel.currentChapter);
                         await writeToDB(novel);
                         Navigator.pop(context);
