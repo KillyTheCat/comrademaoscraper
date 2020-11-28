@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
@@ -32,22 +33,17 @@ class ScraperFunctions {
   }) async {
     String corsProxyAppend =
             (kIsWeb) ? 'https://cors-anywhere.herokuapp.com/' : '',
-        urlString,
-        bodyObjectName;
+        urlString;
 
-    if (siteType.compareTo('boxnovel') == 0) {
+    if (siteType.compareTo('boxnovel') == 0)
       urlString =
-          '${corsProxyAppend}https://boxnovel.com/novel/$chapterTitle/chapter-$chapterNumber';
-      bodyObjectName = 'reading-content';
-    } else if (siteType.compareTo('comrademao') == 0) {
+          '${corsProxyAppend}https://web.scraper.workers.dev/?url=https%3A%2F%2F$siteType.com%2Fnovel%2F$chapterTitle%2Fchapter-$chapterNumber&selector=p&scrape=text&pretty=true';
+    else if (siteType.compareTo('comrademao') == 0)
       urlString =
-          '${corsProxyAppend}https://comrademao.com/mtl/$chapterTitle/$chapterTitle-chapter-$chapterNumber';
-      bodyObjectName = 'site-main';
-    }
+          '${corsProxyAppend}https://web.scraper.workers.dev/?url=https%3A%2F%2F$siteType.com%2Fmtl%2F$chapterTitle%2F$chapterTitle-chapter-$chapterNumber&selector=p&scrape=text&pretty=true';
 
-    String content = 'Error: No Text Recieved';
+    String content = '';
     try {
-      print(urlString);
       List<String> _userAgents = (kIsWeb) ? _webUserAgents : _mobileUserAgents;
       Random randomizer = Random();
       http.Response response = await http.get(
@@ -60,28 +56,29 @@ class ScraperFunctions {
       print(response.statusCode);
 
       if (response.statusCode == 200) {
-        Document soup = parse(response.body);
-        final query = soup.querySelector('html');
-        final List<Element> bodyElements =
-            query.getElementsByClassName(bodyObjectName);
+        final query = json.decode(response.body);
+        final List<dynamic> bodyElement = query['result']['p'];
 
-        if (bodyElements.isEmpty || bodyElements == null)
-          throw ('No elements found!');
+        if (bodyElement == null || bodyElement.isEmpty)
+          throw Exception('No content found!');
 
-        Element bodyElement =
-            (bodyElements.isNotEmpty) ? bodyElements[0] : bodyElements;
-
-        if (bodyElement.hasContent())
-          content = bodyElement.text;
-        else
-          throw ('No such content!');
+        bodyElement.forEach((element) {
+          if (element is String) {
+            element = element.replaceAll(RegExp(r'&#8217;'), "'");
+            element = element.replaceAll(RegExp(r'&#8220;'), '"');
+            element = element.replaceAll(RegExp(r'&#8221;'), '"');
+            print(element);
+            content += '$element\n';
+          }
+          ;
+        });
       } else if (response.statusCode == 503) {
         // DO YOUR THANG ASSHOLE
       } else {
         throw Exception('HTTP Request Failed! (${response.statusCode})');
       }
     } catch (e) {
-      content = 'Error: ${e.toString().substring(11)}';
+      content = '${e.toString()}';
     }
     return content;
   }
