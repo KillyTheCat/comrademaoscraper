@@ -59,6 +59,9 @@ class _ChooseNovelState extends State<ChooseNovel> {
                   novel: novel,
                   deleteNovel: () {
                     novelsBox.deleteAt(index);
+                    setState(() {
+                      
+                    });
                   },
                 );
               },
