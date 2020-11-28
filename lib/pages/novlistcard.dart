@@ -30,7 +30,7 @@ class NovelListCard extends StatelessWidget {
               new Expanded(
                 flex: 1,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: deleteNovel,
                   icon: Icon(
                     Icons.delete,
                     size: 30,

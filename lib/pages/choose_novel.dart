@@ -54,8 +54,13 @@ class _ChooseNovelState extends State<ChooseNovel> {
             return ListView.builder(
               itemCount: novelsBox.length,
               itemBuilder: (context, index) {
-                Novel novel = novelsBox.get(index);
-                return NovelListCard(novel: novel);
+                Novel novel = novelsBox.getAt(index);
+                return NovelListCard(
+                  novel: novel,
+                  deleteNovel: () {
+                    novelsBox.deleteAt(index);
+                  },
+                );
               },
             );
           },
