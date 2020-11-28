@@ -10,6 +10,7 @@ class AddNovel extends StatefulWidget {
 }
 
 class _AddNovelState extends State<AddNovel> {
+  String dropdownValue = "choose novel source";
   @override
   Widget build(BuildContext context) {
     // Future<String> novelTextGet;
@@ -144,25 +145,28 @@ class _AddNovelState extends State<AddNovel> {
                     },
                   ),
                   SizedBox(height: 10),
-                  TextFormField(
-                    controller: sourceController,
-                    decoration: InputDecoration(
-                      focusColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
-                        borderSide: BorderSide(
-                          color: Colors.white70,
-                        ),
+                  Center(
+                    child: DropdownButton<String>(
+                      value: dropdownValue,
+                      icon: Icon(Icons.arrow_downward),
+                      iconSize: 24,
+                      elevation: 16,
+                      style: TextStyle(color: Colors.black54, fontSize: 25),
+                      underline: Container(
+                        height: 2,
+                        color: Colors.deepPurpleAccent,
                       ),
-                      fillColor: Colors.white70,
-                      labelText: 'Enter name of source (boxnovel/comrademao)',
+                      onChanged: (String newValue) {
+                        dropdownValue = newValue;
+                      },
+                      items: <String>["choose novel source",'boxnovel','comrademao']
+                          .map<DropdownMenuItem<String>>((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
                     ),
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'please enter the source';
-                      }
-                      return null;
-                    },
                   ),
                   SizedBox(height: 40),
                   Center(
@@ -172,7 +176,7 @@ class _AddNovelState extends State<AddNovel> {
                           titleController.text,
                           urlController.text,
                           positionController.text,
-                          sourceController.text,
+                          dropdownValue,
                         );
                         await writeToDB(novel);
                         Function rebuildList =
