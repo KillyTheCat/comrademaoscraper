@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:comrademaoscraper/services/webscraper.dart';
 
-class Reader extends StatefulWidget {
-  @override
-  _ReaderState createState() => _ReaderState();
-}
-
-class _ReaderState extends State<Reader> {
-  Future<String> demostring;
+class ReaderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> arguments =
+        ModalRoute.of(context).settings.arguments;
+    final Future<String> demostring = arguments['bodyText'];
     return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+          arguments['name'],
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.black,
+      ),
       drawer: Drawer(),
       body: Container(
         margin: const EdgeInsets.all(10),

@@ -75,6 +75,8 @@ class ScraperFunctions {
           content = bodyElement.text;
         else
           throw ('No such content!');
+      } else if (response.statusCode == 503) {
+        // DO YOUR THANG ASSHOLE
       } else {
         throw Exception('HTTP Request Failed! (${response.statusCode})');
       }

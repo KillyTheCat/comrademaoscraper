@@ -1,27 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:comrademaoscraper/elements/novel.dart';
+
+import 'package:comrademaoscraper/backend/database/data/novel.dart';
+import 'package:comrademaoscraper/backend/webscraper.dart';
 
 //after user chooses the novel from the choose_novel screen, he's led here.
 
-class ChapterSelector extends StatefulWidget {
-  @override
-  _ChapterSelectorState createState() => _ChapterSelectorState();
-}
-
-class _ChapterSelectorState extends State<ChapterSelector> {
-  Map noveldata;
-
+class ChapterSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    noveldata = noveldata.isNotEmpty
-        ? noveldata
-        : ModalRoute.of(context).settings.arguments;
+    Novel novelData = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          noveldata['title'],
+          novelData.name,
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
@@ -33,16 +26,17 @@ class _ChapterSelectorState extends State<ChapterSelector> {
             Text(
               'Current chapter you\'re reading: ',
               style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white),
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
             SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  noveldata['chapternumber'],
+                  novelData.currentChapter,
                   style: TextStyle(
                     color: Colors.amber,
                     fontWeight: FontWeight.bold,
@@ -53,7 +47,18 @@ class _ChapterSelectorState extends State<ChapterSelector> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        '/reader',
+                        arguments: {
+                          'bodyText': scraperFunctions.getBody(
+                            chapterNumber: novelData.currentChapter,
+                            chapterTitle: novelData.url,
+                            siteType: novelData.source,
+                          ),
+                          'name': novelData.name,
+                        },
+                      ),
                       child: Text(
                         'Continue Reading',
                         style: TextStyle(

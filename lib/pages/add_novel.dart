@@ -1,8 +1,8 @@
 // import 'package:comrademaoscraper/services/webscraper.dart';
 import 'package:flutter/material.dart';
-import 'package:comrademaoscraper/elements/novel.dart';
-import 'package:comrademaoscraper/services/filehandling.dart';
-import 'package:hive/hive.dart';
+
+import 'package:comrademaoscraper/backend/database/databaseHandler.dart';
+import 'package:comrademaoscraper/backend/database/data/novel.dart';
 
 class AddNovel extends StatefulWidget {
   @override
@@ -155,8 +155,7 @@ class _AddNovelState extends State<AddNovel> {
                         ),
                       ),
                       fillColor: Colors.white70,
-                      labelText:
-                          'Enter name of source (boxnovel/comrademao)',
+                      labelText: 'Enter name of source (boxnovel/comrademao)',
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
@@ -169,10 +168,16 @@ class _AddNovelState extends State<AddNovel> {
                   Center(
                     child: FlatButton(
                       onPressed: () async {
-                        Novel novel = new Novel(titleController.text,
-                            urlController.text, positionController.text, sourceController.text);
-                        print(novel.currentChapter);
+                        Novel novel = new Novel(
+                          titleController.text,
+                          urlController.text,
+                          positionController.text,
+                          sourceController.text,
+                        );
                         await writeToDB(novel);
+                        Function rebuildList =
+                            ModalRoute.of(context).settings.arguments;
+                        rebuildList();
                         Navigator.pop(context);
                       },
                       color: Colors.amber,

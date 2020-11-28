@@ -1,7 +1,10 @@
-import 'package:comrademaoscraper/elements/novel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'novlistcard.dart';
+
+import 'package:comrademaoscraper/backend/database/data/novel.dart';
+
+import 'package:comrademaoscraper/pages/novlistcard.dart';
 
 class ChooseNovel extends StatefulWidget {
   @override
@@ -9,7 +12,13 @@ class ChooseNovel extends StatefulWidget {
 }
 
 class _ChooseNovelState extends State<ChooseNovel> {
-  // user has to add the novels by himself using floating action button
+  Future _openBooksBox() async {
+    final Box<Novel> novelsBox = await Hive.openBox('myBooksBox');
+    return novelsBox;
+  }
+
+  void rebuildList() => setState(() => {});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +33,7 @@ class _ChooseNovelState extends State<ChooseNovel> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // let user add novels
-          Navigator.pushNamed(context, '/addnovel');
+          Navigator.pushNamed(context, '/addnovel', arguments: rebuildList);
         },
         backgroundColor: Colors.white,
         child: Icon(
@@ -33,19 +42,25 @@ class _ChooseNovelState extends State<ChooseNovel> {
           color: Colors.black,
         ),
       ),
-      body: Container(),
-    );
-  }
-
-  Future _buildListView() async {
-    final novelsBox = await Hive.openBox('myBooksBox');
-    return ListView.builder(
-      itemCount: novelsBox.length,
-      itemBuilder: (context, index) {
-        final novel = novelsBox.get(index) as Novel;
-
-        return NovelListCard(novel: novel);
-      },
+      body: Container(
+        child: FutureBuilder(
+          future: _openBooksBox(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) return CupertinoActivityIndicator();
+            if (snapshot.hasError)
+              return Text('Unable to Open Books. Database Access error!');
+            Box<Novel> novelsBox = snapshot.data;
+            print(novelsBox.length);
+            return ListView.builder(
+              itemCount: novelsBox.length,
+              itemBuilder: (context, index) {
+                Novel novel = novelsBox.get(index);
+                return NovelListCard(novel: novel);
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }
