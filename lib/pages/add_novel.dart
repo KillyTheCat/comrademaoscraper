@@ -40,7 +40,6 @@ class _AddNovelState extends State<AddNovel> {
     final titleController = TextEditingController();
     final urlController = TextEditingController();
     final positionController = TextEditingController();
-    final sourceController = TextEditingController();
     final _formKey = GlobalKey<FormState>();
     return Scaffold(
       backgroundColor: Colors.white,
@@ -117,7 +116,7 @@ class _AddNovelState extends State<AddNovel> {
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'please enter the URL';
+                        return 'Please enter the URL';
                       }
                       return null;
                     },
@@ -139,33 +138,41 @@ class _AddNovelState extends State<AddNovel> {
                     ),
                     validator: (value) {
                       if (value.isEmpty) {
-                        return 'please enter the chapter number';
+                        return 'Please enter the chapter number';
                       }
                       return null;
                     },
                   ),
                   SizedBox(height: 10),
                   Center(
-                    child: DropdownButton<String>(
-                      value: dropdownValue,
-                      icon: Icon(Icons.arrow_downward),
-                      iconSize: 24,
-                      elevation: 16,
-                      style: TextStyle(color: Colors.black54, fontSize: 25),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.deepPurpleAccent,
+                    child: StatefulBuilder(
+                      builder: (context, setStateDropDown) =>
+                          DropdownButton<String>(
+                        value: dropdownValue,
+                        icon: Icon(Icons.arrow_downward),
+                        iconSize: 24,
+                        elevation: 16,
+                        style: TextStyle(color: Colors.black54, fontSize: 25),
+                        underline: Container(
+                          height: 2,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        onChanged: (String newValue) {
+                          setStateDropDown(() => dropdownValue = newValue);
+                        },
+                        items: <String>[
+                          "choose novel source",
+                          'boxnovel',
+                          'comrademao'
+                        ].map<DropdownMenuItem<String>>(
+                          (String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          },
+                        ).toList(),
                       ),
-                      onChanged: (String newValue) {
-                        dropdownValue = newValue;
-                      },
-                      items: <String>["choose novel source",'boxnovel','comrademao']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
                     ),
                   ),
                   SizedBox(height: 40),
