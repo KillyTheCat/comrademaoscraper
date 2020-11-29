@@ -6,6 +6,7 @@ import 'package:comrademaoscraper/pages/choose_novel.dart';
 import 'package:comrademaoscraper/pages/readerpage.dart';
 import 'package:comrademaoscraper/pages/choosechapterpage.dart';
 import 'package:comrademaoscraper/pages/add_novel.dart';
+import 'package:comrademaoscraper/pages/edit_novel.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +49,7 @@ class _MyAppState extends State<MyApp> {
         '/reader': (context) => ReaderPage(),
         '/addnovel': (context) => AddNovel(),
         '/selectchapter': (context) => ChapterSelector(),
+        '/editnovel': (context) => EditNovel(),
       },
     );
   }
