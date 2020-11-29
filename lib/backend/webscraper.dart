@@ -66,11 +66,13 @@ class ScraperFunctions {
             element = element.replaceAll(RegExp(r'&#8217;'), "'");
             element = element.replaceAll(RegExp(r'&#8220;'), '"');
             element = element.replaceAll(RegExp(r'&#8221;'), '"');
+            element = element.replaceAll(RegExp(r'&#8211;'), '–');
             content += '$element\n';
           }
         });
       } else if (response.statusCode == 503) {
         // DO YOUR THANG ASSHOLE
+        // DO I REALLY NEED TO ANYMORE IDIOT
       } else {
         throw Exception('HTTP Request Failed! (${response.statusCode})');
       }
