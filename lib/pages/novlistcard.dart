@@ -6,7 +6,11 @@ class NovelListCard extends StatelessWidget {
   final Novel novel;
   final Function deleteNovel;
   final int index;
-  NovelListCard({this.novel, this.deleteNovel, this.index});
+  NovelListCard({
+    @required this.novel,
+    @required this.deleteNovel,
+    @required this.index,
+  });
   // the card that I wanna display on the choose novel screen.
   // plan to add cover images and author names too.
 
