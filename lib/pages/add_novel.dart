@@ -189,6 +189,7 @@ class _AddNovelState extends State<AddNovel> {
                         Function rebuildList =
                             ModalRoute.of(context).settings.arguments;
                         rebuildList();
+                        await Future.delayed(Duration(seconds: 3));
                         Navigator.pop(context);
                       },
                       color: Colors.amber,

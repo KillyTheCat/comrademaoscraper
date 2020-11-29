@@ -1,10 +1,8 @@
-import 'package:comrademaoscraper/backend/database/databaseHandler.dart';
 import 'package:flutter/material.dart';
 
 import 'package:comrademaoscraper/backend/database/data/novel.dart';
 import 'package:comrademaoscraper/backend/webscraper.dart';
 import 'package:hive/hive.dart';
-import 'edit_novel.dart';
 
 //after user chooses the novel from the choose_novel screen, he's led here.
 
@@ -75,11 +73,11 @@ class ChapterSelector extends StatelessWidget {
                     ),
                     FlatButton(
                       onPressed: () async {
-                        Novel novel2 = novelData['novel'];
-                        novel2.currentChapter = '1';
                         Box<Novel> box =
                             await Hive.openBox<Novel>('myBooksBox');
-                        box.putAt(novelData['index'], novel2);
+                        Novel novel2 = novelData['novel'];
+                        novel2.currentChapter = '1';
+                        await box.putAt(novelData['index'], novel2);
                         Navigator.pushNamed(
                           context,
                           '/reader',
@@ -111,10 +109,14 @@ class ChapterSelector extends StatelessWidget {
             FlatButton.icon(
               onPressed: () async {
                 // await writeEditedToDB(novelData['novel'], novelData['index']);
-                Navigator.pushNamed(context, '/editnovel', arguments: {
-                  'novel': novelData['novel'],
-                  'index': novelData['index'],
-                });
+                Navigator.pushNamed(
+                  context,
+                  '/editnovel',
+                  arguments: {
+                    'novel': novelData['novel'],
+                    'index': novelData['index'],
+                  },
+                );
               },
               icon: Icon(
                 Icons.edit,

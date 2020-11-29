@@ -50,17 +50,16 @@ class _ChooseNovelState extends State<ChooseNovel> {
             if (snapshot.hasError)
               return Text('Unable to Open Books. Database Access error!');
             Box<Novel> novelsBox = snapshot.data;
-            print(novelsBox.length);
             return ListView.builder(
               itemCount: novelsBox.length,
               itemBuilder: (context, index) {
                 Novel novel = novelsBox.getAt(index);
                 return NovelListCard(
                   novel: novel,
+                  index: index,
                   deleteNovel: () {
-                    novelsBox.deleteAt(index);
                     setState(() {
-                      
+                      novelsBox.deleteAt(index);
                     });
                   },
                 );
