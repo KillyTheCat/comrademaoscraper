@@ -1,20 +1,23 @@
+import 'package:comrademaoscraper/backend/database/databaseHandler.dart';
 import 'package:flutter/material.dart';
 
 import 'package:comrademaoscraper/backend/database/data/novel.dart';
 import 'package:comrademaoscraper/backend/webscraper.dart';
+import 'package:hive/hive.dart';
+import 'edit_novel.dart';
 
 //after user chooses the novel from the choose_novel screen, he's led here.
 
 class ChapterSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Novel novelData = ModalRoute.of(context).settings.arguments;
+    Map novelData = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          novelData.name,
+          novelData['novel'].name,
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
@@ -36,7 +39,7 @@ class ChapterSelector extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  novelData.currentChapter,
+                  novelData['novel'].currentChapter,
                   style: TextStyle(
                     color: Colors.amber,
                     fontWeight: FontWeight.bold,
@@ -52,11 +55,11 @@ class ChapterSelector extends StatelessWidget {
                         '/reader',
                         arguments: {
                           'bodyText': scraperFunctions.getBody(
-                            chapterNumber: novelData.currentChapter,
-                            chapterTitle: novelData.url,
-                            siteType: novelData.source,
+                            chapterNumber: novelData['novel'].currentChapter,
+                            chapterTitle: novelData['novel'].url,
+                            siteType: novelData['novel'].source,
                           ),
-                          'name': novelData.name,
+                          'name': novelData['novel'].name,
                         },
                       ),
                       child: Text(
@@ -71,7 +74,25 @@ class ChapterSelector extends StatelessWidget {
                       height: 5,
                     ),
                     FlatButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        Novel novel2 = novelData['novel'];
+                        novel2.currentChapter = '1';
+                        Box<Novel> box =
+                            await Hive.openBox<Novel>('myBooksBox');
+                        box.putAt(novelData['index'], novel2);
+                        Navigator.pushNamed(
+                          context,
+                          '/reader',
+                          arguments: {
+                            'bodyText': scraperFunctions.getBody(
+                              chapterNumber: novelData['novel'].currentChapter,
+                              chapterTitle: novelData['novel'].url,
+                              siteType: novelData['novel'].source,
+                            ),
+                            'name': novelData['novel'].name,
+                          },
+                        );
+                      },
                       child: Text(
                         'Go to beginning',
                         style: TextStyle(
@@ -86,6 +107,19 @@ class ChapterSelector extends StatelessWidget {
                   ],
                 ),
               ],
+            ),
+            FlatButton.icon(
+              onPressed: () async {
+                // await writeEditedToDB(novelData['novel'], novelData['index']);
+                Navigator.pushNamed(context, '/editnovel', arguments: {
+                  'novel': novelData['novel'],
+                  'index': novelData['index'],
+                });
+              },
+              icon: Icon(
+                Icons.edit,
+              ),
+              label: Text('Edit'),
             )
           ],
         ),

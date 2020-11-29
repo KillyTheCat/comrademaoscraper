@@ -8,8 +8,8 @@ Future<void> writeToDB(Novel novel) async {
   box.close();
 }
 
-Future<void> incrementChapterNumber(String novelName) async {
+Future<void> writeEditedToDB(Novel novelName, int index) async {
   Box<Novel> box = await Hive.openBox<Novel>('myBooksBox');
-  // increment chapter number of the novel
+  box.putAt(index, novelName);
   box.close();
 }
