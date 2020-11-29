@@ -78,11 +78,18 @@ class ChapterSelector extends StatelessWidget {
                         Box<Novel> box =
                             await Hive.openBox<Novel>('myBooksBox');
                         box.putAt(novelData['index'], novel2);
-                        Navigator.pushReplacementNamed(context, '/selectchapter',
-                      arguments: {
-                        'novel' : novelData['novel'],
-                        'index' : novelData['index'],
-                      });
+                        Navigator.pushNamed(
+                          context,
+                          '/reader',
+                          arguments: {
+                            'bodyText': scraperFunctions.getBody(
+                              chapterNumber: novelData['novel'].currentChapter,
+                              chapterTitle: novelData['novel'].url,
+                              siteType: novelData['novel'].source,
+                            ),
+                            'name': novelData['novel'].name,
+                          },
+                        );
                       },
                       child: Text(
                         'Go to beginning',
