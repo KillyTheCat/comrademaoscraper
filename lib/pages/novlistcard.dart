@@ -26,7 +26,7 @@ class NovelListCard extends StatelessWidget {
               flex: 4,
               child: ListTile(
                 onTap: () {
-                  // send to a page where the user can choose the chapter, I have yet to make it.
+                  // send to a page where the user can choose the chapter.
                   Navigator.pushNamed(
                     context,
                     '/selectchapter',
