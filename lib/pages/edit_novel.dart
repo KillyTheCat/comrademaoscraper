@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:comrademaoscraper/backend/database/databaseHandler.dart';
 import 'package:comrademaoscraper/backend/database/data/novel.dart';
+import 'package:hive/hive.dart';
 
 class EditNovel extends StatefulWidget {
   @override
@@ -149,14 +150,14 @@ class _EditNovelState extends State<EditNovel> {
                     child: StatefulBuilder(
                       builder: (context, setStateDropDown) =>
                           DropdownButton<String>(
-                        value: dropdownValue,
+                        value: novel['novel'].source,
                         icon: Icon(Icons.arrow_downward),
                         iconSize: 24,
                         elevation: 16,
                         style: TextStyle(color: Colors.black54, fontSize: 25),
                         underline: Container(
                           height: 2,
-                          color: Colors.deepPurpleAccent,
+                          color: Colors.blueAccent,
                         ),
                         onChanged: (String newValue) {
                           setStateDropDown(() => dropdownValue = newValue);
@@ -183,7 +184,10 @@ class _EditNovelState extends State<EditNovel> {
                           positionController.text,
                           dropdownValue,
                         );
-                        await writeEditedToDB(novel1, novel['index']);
+                        Box<Novel> box =
+                            await Hive.openBox<Novel>('myBooksBox');
+                        await box.putAt(novel['index'], novel1);
+                        await box.close();
                         Function rebuildList =
                             ModalRoute.of(context).settings.arguments;
                         rebuildList();
