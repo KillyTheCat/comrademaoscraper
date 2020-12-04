@@ -106,6 +106,7 @@ class ChapterSelector extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(height: 30,)
             FlatButton.icon(
               onPressed: () async {
                 // await writeEditedToDB(novelData['novel'], novelData['index']);
@@ -120,8 +121,15 @@ class ChapterSelector extends StatelessWidget {
               },
               icon: Icon(
                 Icons.edit,
+                color: Colors.white,
               ),
-              label: Text('Edit'),
+              label: Text(
+                'Edit',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
+              ),
             )
           ],
         ),
