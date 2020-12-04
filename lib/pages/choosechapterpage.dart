@@ -106,7 +106,9 @@ class ChapterSelector extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 30,)
+            SizedBox(
+              height: 30,
+            ),
             FlatButton.icon(
               onPressed: () async {
                 // await writeEditedToDB(novelData['novel'], novelData['index']);
