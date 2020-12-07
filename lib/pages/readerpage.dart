@@ -7,16 +7,6 @@ class ReaderPage extends StatelessWidget {
         ModalRoute.of(context).settings.arguments;
     final Future<String> demostring = arguments['bodyText'];
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white70,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chevron_left), label: 'Previous Chapter'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chevron_right), label: 'Next Chapter'),
-          BottomNavigationBarItem(icon: Icon(Icons.arrow_back), label: 'Back'),
-        ],
-      ),
       backgroundColor: Colors.black,
       appBar: AppBar(
         centerTitle: true,
@@ -25,6 +15,24 @@ class ReaderPage extends StatelessWidget {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black,
+        actions: [
+          IconButton(
+              onPressed: () async {},
+              icon: Icon(
+                Icons.skip_previous,
+                color: Colors.white,
+                size: 50,
+              )),
+          SizedBox(width: 40),
+          IconButton(
+              onPressed: () async {},
+              icon: Icon(
+                Icons.skip_next,
+                color: Colors.white,
+                size: 50,
+              )),
+          SizedBox(width: 40),
+        ],
       ),
       drawer: Drawer(),
       body: Container(

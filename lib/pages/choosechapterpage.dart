@@ -58,6 +58,7 @@ class ChapterSelector extends StatelessWidget {
                             siteType: novelData['novel'].source,
                           ),
                           'name': novelData['novel'].name,
+                          'index': novelData['index'],
                         },
                       ),
                       child: Text(
