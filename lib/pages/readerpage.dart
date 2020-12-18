@@ -68,7 +68,43 @@ class ReaderPage extends StatelessWidget {
           SizedBox(width: 40),
         ],
       ),
-      drawer: Drawer(),
+      // drawer: Drawer(
+      //   child: Container(
+      //     color: Colors.black,
+      //     child: Column(
+      //       children: <Widget>[
+      //         SizedBox(height: 50),
+      //         Card(
+      //           color: Colors.black,
+      //           child: Row(
+      //             children: <Widget>[
+      //               Expanded(
+      //                 flex: 4,
+      //                 child: Text(
+      //                   'Font Size',
+      //                   style: TextStyle(
+      //                     color: Colors.white,
+      //                     fontSize: 30,
+      //                     letterSpacing: 1.5,
+      //                   ),
+      //                 ),
+      //               ),
+      //               Expanded(
+      //                 flex: 1,
+      //                 child: IconButton(
+      //                   icon: Icon(
+      //                     Icons.plus_one,
+      //                     color: Colors.white,
+      //                   ),
+      //                 ),
+      //               )
+      //             ],
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: GestureDetector(
         onHorizontalDragEnd: (details) {
           if (kIsWeb) return;

@@ -29,6 +29,17 @@ class _ChooseNovelState extends State<ChooseNovel> {
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.black87,
+        actions: [
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
+            icon: Icon(
+              Icons.settings,
+              size: 30,
+              color: Colors.white,
+            ),
+          ),
+          SizedBox(width: 30),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
