@@ -1,7 +1,6 @@
 // import 'package:comrademaoscraper/services/webscraper.dart';
 import 'package:flutter/material.dart';
 
-import 'package:comrademaoscraper/backend/database/databaseHandler.dart';
 import 'package:comrademaoscraper/backend/database/data/novel.dart';
 import 'package:hive/hive.dart';
 
@@ -12,37 +11,17 @@ class EditNovel extends StatefulWidget {
 
 class _EditNovelState extends State<EditNovel> {
   String dropdownValue;
+
   @override
   Widget build(BuildContext context) {
-    // Future<String> novelTextGet;
-    // For BoxNovel
-    // novelTextGet = scraperFunctions.getBody(
-    //   siteType: 'boxnovel',
-    //   chapterTitle: 'reverend-insanity',
-    //   chapterNumber: '2075',
-    // );
-    /*
-    // For BoxNovel
-    novelTextGet = scraperFunctions.getBody(
-      siteType: 'boxnovel',
-      chapterTitle: 'reverend-insanity',
-      chapterNumber: '100',
-    );
-    */
-    /* 
-    // For ComradeMao
-    novelTextGet = scraperFunctions.getBody(
-      siteType: 'comrademao',
-      chapterTitle: 'great-emperor-myriad',
-      chapterNumber: '3475',
-    );
-    */
-    final Map novel = ModalRoute.of(context).settings.arguments;
+    final Map<String, dynamic> novel =
+        ModalRoute.of(context).settings.arguments;
     final titleController = TextEditingController(text: novel['novel'].name);
     final urlController = TextEditingController(text: novel['novel'].url);
     final positionController =
         TextEditingController(text: novel['novel'].currentChapter);
     final _formKey = GlobalKey<FormState>();
+    dropdownValue = novel['novel'].source;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -56,25 +35,6 @@ class _EditNovelState extends State<EditNovel> {
           ),
         ),
       ),
-      // body: Container(
-      //   margin: const EdgeInsets.all(10),
-      //   child: FutureBuilder(
-      //     future: novelTextGet,
-      //     builder: (context, snapshot) {
-      //       if (!snapshot.hasData)
-      //         return Center(
-      //           child: CircularProgressIndicator(),
-      //         );
-      //       return SingleChildScrollView(
-      //         scrollDirection: Axis.vertical,
-      //         child: Text(
-      //           snapshot.data,
-      //           style: TextStyle(color: Colors.white),
-      //         ),
-      //       );
-      //     },
-      //   ),
-      // ),
       body: Column(
         children: <Widget>[
           Form(
@@ -150,7 +110,7 @@ class _EditNovelState extends State<EditNovel> {
                     child: StatefulBuilder(
                       builder: (context, setStateDropDown) =>
                           DropdownButton<String>(
-                        value: novel['novel'].source,
+                        value: dropdownValue,
                         icon: Icon(Icons.arrow_downward),
                         iconSize: 24,
                         elevation: 16,
@@ -160,10 +120,16 @@ class _EditNovelState extends State<EditNovel> {
                           color: Colors.blueAccent,
                         ),
                         onChanged: (String newValue) {
-                          setStateDropDown(() => dropdownValue = newValue);
+                          setStateDropDown(() {
+                            if (newValue.compareTo('choose novel source') != 0)
+                              dropdownValue = newValue;
+                          });
                         },
-                        items: <String>['boxnovel', 'comrademao']
-                            .map<DropdownMenuItem<String>>(
+                        items: <String>[
+                          "choose novel source",
+                          'boxnovel',
+                          'comrademao'
+                        ].map<DropdownMenuItem<String>>(
                           (String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -188,9 +154,8 @@ class _EditNovelState extends State<EditNovel> {
                             await Hive.openBox<Novel>('myBooksBox');
                         await box.putAt(novel['index'], novel1);
                         await box.close();
-                        Function rebuildList =
-                            ModalRoute.of(context).settings.arguments;
-                        rebuildList();
+                        Function(Novel) rebuildList = novel['updateFunction'];
+                        rebuildList(novel1);
                         Navigator.pop(context);
                       },
                       color: Colors.amber,

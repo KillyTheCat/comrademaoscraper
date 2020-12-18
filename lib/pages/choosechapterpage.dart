@@ -1,15 +1,42 @@
 import 'package:flutter/material.dart';
 
 import 'package:comrademaoscraper/backend/database/data/novel.dart';
-import 'package:comrademaoscraper/backend/webscraper.dart';
 import 'package:hive/hive.dart';
 
 //after user chooses the novel from the choose_novel screen, he's led here.
 
-class ChapterSelector extends StatelessWidget {
+class ChapterSelector extends StatefulWidget {
+  @override
+  _ChapterSelectorState createState() => _ChapterSelectorState();
+}
+
+class _ChapterSelectorState extends State<ChapterSelector> {
+  Map<String, dynamic> novelData;
+
+  void updateNovel(Novel changedNovel) {
+    setState(
+      () {
+        novelData['novel'] = changedNovel;
+      },
+    );
+  }
+
+  Future<void> setChapter(
+      Map<String, dynamic> novelData, String newChapter) async {
+    Box<Novel> box = await Hive.openBox<Novel>('myBooksBox');
+    Novel novel2 = novelData['novel'];
+    setState(
+      () {
+        novel2.currentChapter = newChapter;
+      },
+    );
+    await box.putAt(novelData['index'], novel2);
+  }
+
   @override
   Widget build(BuildContext context) {
-    Map novelData = ModalRoute.of(context).settings.arguments;
+    novelData = novelData ?? ModalRoute.of(context).settings.arguments;
+    novelData['changeChapterFunction'] = setChapter;
     return Scaffold(
       backgroundColor: Colors.black87,
       appBar: AppBar(
@@ -51,15 +78,7 @@ class ChapterSelector extends StatelessWidget {
                       onPressed: () => Navigator.pushNamed(
                         context,
                         '/reader',
-                        arguments: {
-                          'bodyText': scraperFunctions.getBody(
-                            chapterNumber: novelData['novel'].currentChapter,
-                            chapterTitle: novelData['novel'].url,
-                            siteType: novelData['novel'].source,
-                          ),
-                          'name': novelData['novel'].name,
-                          'index': novelData['index'],
-                        },
+                        arguments: novelData,
                       ),
                       child: Text(
                         'Continue Reading',
@@ -74,22 +93,11 @@ class ChapterSelector extends StatelessWidget {
                     ),
                     FlatButton(
                       onPressed: () async {
-                        Box<Novel> box =
-                            await Hive.openBox<Novel>('myBooksBox');
-                        Novel novel2 = novelData['novel'];
-                        novel2.currentChapter = '1';
-                        await box.putAt(novelData['index'], novel2);
+                        await setChapter(novelData, '1');
                         Navigator.pushNamed(
                           context,
                           '/reader',
-                          arguments: {
-                            'bodyText': scraperFunctions.getBody(
-                              chapterNumber: novelData['novel'].currentChapter,
-                              chapterTitle: novelData['novel'].url,
-                              siteType: novelData['novel'].source,
-                            ),
-                            'name': novelData['novel'].name,
-                          },
+                          arguments: novelData,
                         );
                       },
                       child: Text(
@@ -119,6 +127,7 @@ class ChapterSelector extends StatelessWidget {
                   arguments: {
                     'novel': novelData['novel'],
                     'index': novelData['index'],
+                    'updateFunction': updateNovel,
                   },
                 );
               },

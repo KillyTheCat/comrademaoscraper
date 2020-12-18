@@ -13,30 +13,6 @@ class _AddNovelState extends State<AddNovel> {
   String dropdownValue = "choose novel source";
   @override
   Widget build(BuildContext context) {
-    // Future<String> novelTextGet;
-    // For BoxNovel
-    // novelTextGet = scraperFunctions.getBody(
-    //   siteType: 'boxnovel',
-    //   chapterTitle: 'reverend-insanity',
-    //   chapterNumber: '2075',
-    // );
-    /*
-    // For BoxNovel
-    novelTextGet = scraperFunctions.getBody(
-      siteType: 'boxnovel',
-      chapterTitle: 'reverend-insanity',
-      chapterNumber: '100',
-    );
-    */
-    /* 
-    // For ComradeMao
-    novelTextGet = scraperFunctions.getBody(
-      siteType: 'comrademao',
-      chapterTitle: 'great-emperor-myriad',
-      chapterNumber: '3475',
-    );
-    */
-
     final titleController = TextEditingController();
     final urlController = TextEditingController();
     final positionController = TextEditingController();
@@ -54,25 +30,6 @@ class _AddNovelState extends State<AddNovel> {
           ),
         ),
       ),
-      // body: Container(
-      //   margin: const EdgeInsets.all(10),
-      //   child: FutureBuilder(
-      //     future: novelTextGet,
-      //     builder: (context, snapshot) {
-      //       if (!snapshot.hasData)
-      //         return Center(
-      //           child: CircularProgressIndicator(),
-      //         );
-      //       return SingleChildScrollView(
-      //         scrollDirection: Axis.vertical,
-      //         child: Text(
-      //           snapshot.data,
-      //           style: TextStyle(color: Colors.white),
-      //         ),
-      //       );
-      //     },
-      //   ),
-      // ),
       body: Column(
         children: <Widget>[
           Form(
