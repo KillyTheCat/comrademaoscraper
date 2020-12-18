@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:comrademaoscraper/backend/database/data/novel.dart';
 import 'package:comrademaoscraper/backend/webscraper.dart';
+import 'package:hive/hive.dart';
 
 class ReaderPage extends StatelessWidget {
   void changePageByDelta(
@@ -120,6 +121,15 @@ class ReaderPage extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<double> getFontSizeFromBox() async {
+  Box settingsbox = await Hive.openBox('settingsBox');
+  if (!settingsbox.containsKey('fontSize')) {
+    return 20;
+  } else {
+    return settingsbox.get('fontSize');
   }
 }
 
