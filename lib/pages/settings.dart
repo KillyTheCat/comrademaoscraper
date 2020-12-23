@@ -13,6 +13,7 @@ class _SettingsPageState extends State<SettingsPage> {
   void initBox() async {
     Box<num> settingsBox = await settingsBoxFuture;
     if (!settingsBox.containsKey('fontSize')) settingsBox.put('fontSize', 20);
+
     setState(() => currentSize = settingsBox.get('fontSize'));
   }
 
