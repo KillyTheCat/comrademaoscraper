@@ -51,7 +51,6 @@ class ScraperFunctions {
           "User-Agent": _userAgents[randomizer.nextInt(_userAgents.length)],
         },
       );
-      print(response.statusCode);
 
       if (response.statusCode == 200) {
         final query = json.decode(response.body);
@@ -60,7 +59,6 @@ class ScraperFunctions {
         if (bodyElement == null || bodyElement.isEmpty)
           throw Exception('No content found!');
 
-        // TODO: Cleanup. First lines are about Site and Last few lines contain fluff too.
         bodyElement.forEach((element) {
           if (element is String) {
             element = element.replaceAll(RegExp(r'&#8217;'), "'");

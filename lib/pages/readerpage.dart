@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +37,6 @@ class ReaderPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        centerTitle: true,
         title: Text(
           novelData['novel'].name,
           style: TextStyle(color: Colors.white),
@@ -47,12 +48,11 @@ class ReaderPage extends StatelessWidget {
             icon: Icon(
               Icons.skip_previous,
               color: Colors.white,
-              size: 50,
+              size: 35,
             ),
           ),
           Container(
             alignment: Alignment.center,
-            margin: EdgeInsets.only(left: 12, top: 5),
             child: Text(
               novelData['novel'].currentChapter,
               textAlign: TextAlign.justify,
@@ -63,10 +63,17 @@ class ReaderPage extends StatelessWidget {
             icon: Icon(
               Icons.skip_next,
               color: Colors.white,
-              size: 50,
+              size: 35,
             ),
           ),
-          SizedBox(width: 40),
+          IconButton(
+            onPressed: () => Navigator.pushNamed(context, '/settings'),
+            icon: Icon(
+              Icons.settings,
+              size: 20,
+              color: Colors.white,
+            ),
+          ),
         ],
       ),
       body: GestureDetector(
@@ -95,12 +102,13 @@ class NovelBody extends StatelessWidget {
 
   final Future<String> novelBodyText;
 
-  Future<double> getFontSizeFromBox() async {
-    Box settingsBox = await Hive.openBox('settingsBox');
+  Stream<num> getFontSizeFromBox() async* {
+    Box<num> settingsBox = await Hive.openBox<num>('settingsBox');
     if (!settingsBox.containsKey('fontSize')) {
-      return 20;
+      yield* Stream<num>.value(20.0);
     } else {
-      return settingsBox.get('fontSize');
+      Stream<BoxEvent> out = settingsBox.watch(key: 'fontSize');
+      yield* out.map<num>((event) => event.value);
     }
   }
 
@@ -116,14 +124,17 @@ class NovelBody extends StatelessWidget {
         String visualizetext = snapshot.data;
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: FutureBuilder(
-            future: getFontSizeFromBox(),
+          child: StreamBuilder(
+            stream: getFontSizeFromBox(),
             initialData: 20.0,
             builder: (context, sizeSnapshot) {
-              double desiredSize = sizeSnapshot.data;
+              num desiredSize = sizeSnapshot.data;
               return Text(
                 visualizetext,
-                style: TextStyle(color: Colors.white, fontSize: desiredSize),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: desiredSize.toDouble(),
+                ),
               );
             },
           ),

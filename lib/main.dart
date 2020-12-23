@@ -18,7 +18,6 @@ void main() async {
 // Every time the user opens the app, he's going to land on the choose novel page
 
 class MyApp extends StatefulWidget {
-  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -30,20 +29,8 @@ class _MyAppState extends State<MyApp> {
       title: 'Comrade Mao Unofficial App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        appBarTheme: AppBarTheme(backgroundColor: Colors.black),
       ),
-      // home: FutureBuilder(
-      //   future: Hive.openBox('myBooksBox'),
-      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
-      //     if (snapshot.connectionState == ConnectionState.done) {
-      //       if (snapshot.hasError) {
-      //         return Text(snapshot.error.toString());
-      //       } else {
-      //         return ChooseNovel();
-      //       }
-      //     } else
-      //       return Scaffold();
-      //   },
-      // ),
       initialRoute: '/',
       routes: {
         '/': (context) => ChooseNovel(),

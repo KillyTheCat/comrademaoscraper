@@ -7,18 +7,18 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Future<Box> settingsBoxFuture;
-  double currentSize;
+  Future<Box<num>> settingsBoxFuture;
+  num currentSize;
 
   void initBox() async {
-    Box settingsBox = await settingsBoxFuture;
+    Box<num> settingsBox = await settingsBoxFuture;
     if (!settingsBox.containsKey('fontSize')) settingsBox.put('fontSize', 20);
     setState(() => currentSize = settingsBox.get('fontSize'));
   }
 
   @override
   void initState() {
-    settingsBoxFuture = Hive.openBox('settingsBox');
+    settingsBoxFuture = Hive.openBox<num>('settingsBox');
     initBox();
     super.initState();
   }
@@ -34,6 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Card(
             child: Padding(
@@ -55,13 +56,13 @@ class _SettingsPageState extends State<SettingsPage> {
                         Box settingsBox = await settingsBoxFuture;
                         settingsBox.put(
                           'fontSize',
-                          settingsBox.get('fontSize') + 1,
+                          settingsBox.get('fontSize') - 1,
                         );
                         setState(
                           () => currentSize = settingsBox.get('fontSize'),
                         );
                       },
-                      icon: Icon(Icons.plus_one),
+                      icon: Icon(Icons.exposure_minus_1),
                     ),
                   ),
                   Expanded(
@@ -75,23 +76,21 @@ class _SettingsPageState extends State<SettingsPage> {
                         Box settingsBox = await settingsBoxFuture;
                         settingsBox.put(
                           'fontSize',
-                          settingsBox.get('fontSize') - 1,
+                          settingsBox.get('fontSize') + 1,
                         );
                         setState(
                           () => currentSize = settingsBox.get('fontSize'),
                         );
                       },
-                      icon: Icon(Icons.exposure_minus_1),
+                      icon: Icon(Icons.plus_one),
                     ),
                   ),
                 ],
               ),
             ),
           ),
-          SizedBox(
-            height: 10,
-          ),
           FlatButton(
+            height: 100,
             onPressed: () {
               showAboutDialog(
                 context: context,
@@ -108,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 fontWeight: FontWeight.bold,
               ),
             ),
-          )
+          ),
         ],
       ),
     );
