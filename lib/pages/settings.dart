@@ -7,6 +7,22 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  Future<Box> settingsBoxFuture;
+  double currentSize;
+
+  void initBox() async {
+    Box settingsBox = await settingsBoxFuture;
+    if (!settingsBox.containsKey('fontSize')) settingsBox.put('fontSize', 20);
+    setState(() => currentSize = settingsBox.get('fontSize'));
+  }
+
+  @override
+  void initState() {
+    settingsBoxFuture = Hive.openBox('settingsBox');
+    initBox();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,15 +51,36 @@ class _SettingsPageState extends State<SettingsPage> {
                   Expanded(
                     flex: 1,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        Box settingsBox = await settingsBoxFuture;
+                        settingsBox.put(
+                          'fontSize',
+                          settingsBox.get('fontSize') + 1,
+                        );
+                        setState(
+                          () => currentSize = settingsBox.get('fontSize'),
+                        );
+                      },
                       icon: Icon(Icons.plus_one),
                     ),
                   ),
-                  Expanded(flex: 1, child: Text('Placeholder')),
+                  Expanded(
+                    flex: 1,
+                    child: Center(child: Text('$currentSize')),
+                  ),
                   Expanded(
                     flex: 1,
                     child: IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        Box settingsBox = await settingsBoxFuture;
+                        settingsBox.put(
+                          'fontSize',
+                          settingsBox.get('fontSize') - 1,
+                        );
+                        setState(
+                          () => currentSize = settingsBox.get('fontSize'),
+                        );
+                      },
                       icon: Icon(Icons.exposure_minus_1),
                     ),
                   ),

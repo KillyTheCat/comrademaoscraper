@@ -27,7 +27,7 @@ class ReaderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, dynamic> novelData =
         ModalRoute.of(context).settings.arguments;
-    Future<String> demostring = scraperFunctions.getBody(
+    Future<String> waitNovelBodyString = scraperFunctions.getBody(
       chapterNumber: novelData['novel'].currentChapter,
       chapterTitle: novelData['novel'].url,
       siteType: novelData['novel'].source,
@@ -69,43 +69,6 @@ class ReaderPage extends StatelessWidget {
           SizedBox(width: 40),
         ],
       ),
-      // drawer: Drawer(
-      //   child: Container(
-      //     color: Colors.black,
-      //     child: Column(
-      //       children: <Widget>[
-      //         SizedBox(height: 50),
-      //         Card(
-      //           color: Colors.black,
-      //           child: Row(
-      //             children: <Widget>[
-      //               Expanded(
-      //                 flex: 4,
-      //                 child: Text(
-      //                   'Font Size',
-      //                   style: TextStyle(
-      //                     color: Colors.white,
-      //                     fontSize: 30,
-      //                     letterSpacing: 1.5,
-      //                   ),
-      //                 ),
-      //               ),
-      //               Expanded(
-      //                 flex: 1,
-      //                 child: IconButton(
-      //                   icon: Icon(
-      //                     Icons.plus_one,
-      //                     color: Colors.white,
-      //                   ),
-      //                 ),
-      //               )
-      //             ],
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ),
-      // ),
       body: GestureDetector(
         onHorizontalDragEnd: (details) {
           if (kIsWeb) return;
@@ -117,44 +80,52 @@ class ReaderPage extends StatelessWidget {
         },
         child: Container(
           margin: const EdgeInsets.all(10),
-          child: NovelBody(demostring: demostring),
+          child: NovelBody(novelBodyText: waitNovelBodyString),
         ),
       ),
     );
   }
 }
 
-Future<double> getFontSizeFromBox() async {
-  Box settingsbox = await Hive.openBox('settingsBox');
-  if (!settingsbox.containsKey('fontSize')) {
-    return 20;
-  } else {
-    return settingsbox.get('fontSize');
-  }
-}
-
 class NovelBody extends StatelessWidget {
   const NovelBody({
     Key key,
-    @required this.demostring,
+    @required this.novelBodyText,
   }) : super(key: key);
 
-  final Future<String> demostring;
+  final Future<String> novelBodyText;
+
+  Future<double> getFontSizeFromBox() async {
+    Box settingsBox = await Hive.openBox('settingsBox');
+    if (!settingsBox.containsKey('fontSize')) {
+      return 20;
+    } else {
+      return settingsBox.get('fontSize');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: demostring,
+      future: novelBodyText,
       builder: (context, snapshot) {
         if (!snapshot.hasData)
           return Center(
             child: CircularProgressIndicator(),
           );
+        String visualizetext = snapshot.data;
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Text(
-            snapshot.data,
-            style: TextStyle(color: Colors.white),
+          child: FutureBuilder(
+            future: getFontSizeFromBox(),
+            initialData: 20.0,
+            builder: (context, sizeSnapshot) {
+              double desiredSize = sizeSnapshot.data;
+              return Text(
+                visualizetext,
+                style: TextStyle(color: Colors.white, fontSize: desiredSize),
+              );
+            },
           ),
         );
       },
