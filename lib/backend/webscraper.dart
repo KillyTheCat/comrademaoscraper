@@ -67,6 +67,7 @@ class ScraperFunctions {
             element = element.replaceAll(RegExp(r'&#8211;'), '–');
             element = element.replaceAll(RegExp(r'&#8212;'), '—');
             element = element.replaceAll(RegExp(r'&#8230;'), '...');
+            element = element.replaceAll(RegExp(r'&#8216;'), '‘');
             content += '$element\n';
           }
         });

@@ -13,6 +13,8 @@ class _SettingsPageState extends State<SettingsPage> {
   void initBox() async {
     Box<num> settingsBox = await settingsBoxFuture;
     if (!settingsBox.containsKey('fontSize')) settingsBox.put('fontSize', 20);
+    if (!settingsBox.containsKey('darkModeActive'))
+      settingsBox.put('darkModeActive', 1);
 
     setState(() => currentSize = settingsBox.get('fontSize'));
   }
@@ -34,8 +36,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title: Text('Settings'),
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Card(
             child: Padding(
@@ -90,13 +91,36 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
+          Card(
+            child: Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 7,
+                    child: Text(
+                      "Dark Mode",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Switch(
+                      value: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           FlatButton(
             height: 100,
             onPressed: () {
               showAboutDialog(
                 context: context,
                 applicationVersion: '0.0.5',
-                applicationName: 'Dokusha: your novel reader',
+                applicationName: 'Comrademaoscraper: your novel reader',
               );
             },
             child: Text(

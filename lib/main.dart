@@ -29,7 +29,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Comrade Mao Unofficial App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.black),
+        appBarTheme: AppBarTheme(color: Colors.black),
       ),
       initialRoute: '/',
       routes: {
