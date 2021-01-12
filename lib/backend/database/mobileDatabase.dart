@@ -10,10 +10,9 @@ Future<void> initializeDb() async {
   if (Platform.isIOS || Platform.isAndroid) {
     final documentDirectory = await paths.getApplicationDocumentsDirectory();
     Hive.init(documentDirectory.path);
-    Hive.registerAdapter<Novel>(NovelAdapter());
   } else if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
     final documentDirectory = await getDatabasesPath();
     Hive.init(documentDirectory);
-    Hive.registerAdapter<Novel>(NovelAdapter());
   }
+  Hive.registerAdapter<Novel>(NovelAdapter());
 }
